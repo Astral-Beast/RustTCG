@@ -1,4 +1,5 @@
-use std::fmt;
+use std::{fmt, path::Display};
+pub mod misc;
 pub struct Deck {
     cards: Vec<Card>,
 }
@@ -30,21 +31,19 @@ pub struct Card {
     attributes: Vec<Attribute>,
 }
 impl Card {
+    //misc card functions
     pub fn print_card(&self) {
         print!(
             "Card Name: {}\nText: {}\nCost: {}\nAttributes:\n",
             self.name, self.flavor_text, self.cost
         );
-        for att in &self.attributes {
-            println!("{}", att)
-        }
+        misc::print_vec(&self.attributes);
     }
 
     pub fn push_new_attribute(mut self, new_attr: Attribute) -> Self {
         self.attributes.push(new_attr);
         self
     }
-    
 }
 
 pub enum Cost {
@@ -66,8 +65,8 @@ pub enum Attribute {
     Damage(u16),      // X damagage inflicted
     Poison(u16, u16), //X Poison damage for Y Rounds
     Armor(u16),       //protect from x damage
-    HealBody(u16),   //Increase Body by X
-    HealMind(u16),   //Increase mind by X
+    HealBody(u16),    //Increase Body by X
+    HealMind(u16),    //Increase mind by X
     HealSpirit(u16),
 }
 
@@ -88,7 +87,7 @@ impl fmt::Display for Attribute {
     }
 }
 
-impl Card{
+impl Card {
     // Standard Card factories
     pub fn stab_card() -> Card {
         Card {
@@ -106,7 +105,7 @@ impl Card{
             attributes: vec![Attribute::Armor(4)],
         }
     }
-    pub fn recite_litany_of_respite() -> Card{
+    pub fn recite_litany_of_respite() -> Card {
         Card {
             name: "Recite Litany of Respite".to_string(),
             flavor_text: "The enigmatic monks of the temple of the Silver Star Enclave teach that one must be centered before attempting communion.".to_string(),
