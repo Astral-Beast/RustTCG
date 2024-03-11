@@ -1,4 +1,4 @@
-use std::{fmt, path::Display};
+use std::fmt;
 pub mod misc;
 pub struct Deck {
     cards: Vec<Card>,
