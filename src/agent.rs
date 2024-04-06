@@ -1,6 +1,8 @@
 use std::fmt;
 use crate::misc;
 
+/// The player and enemy NPCs are both concidered Agents. 
+/// Agents may have any number of conditions, but they may only have one condition of a given condition type. 
 pub struct Agent {
     name: String,
     mind: u16,
@@ -11,6 +13,7 @@ pub struct Agent {
 }
 
 impl Agent {
+    /// Creates new player agent/player agent factory
     pub fn player_start() -> Agent {
         Agent{
             name: "Player".to_string(),
@@ -21,6 +24,10 @@ impl Agent {
             conditions: vec![],
         }
     }
+    /// Checks whether the agent already has a condition of the type of new_condition.
+    /// If it does, the new and old condition magnitudes and duration are added. If it doesn't, 
+    /// the condition is added to the Agent's condition Vec. 
+    /// Returns the updated Agent.
     pub fn add_condition(mut self, new_condition: Condition) -> Agent{
         // Adds conditions to an agent, such as burning, paralyzed, etc
         for i in self.conditions.iter_mut(){
@@ -40,6 +47,7 @@ impl Agent {
         return self;
 
     }
+    /// Prints Agent details.
     pub fn print_agent(&self){
         print!("Agent Name: {}\nHealth Values:\nMind: {}  Body: {}  Spirit: {}\nArmor: {}\n", self.name, self.mind, self.body, self.spirit, self.armor);
         misc::print_vec(&self.conditions);
@@ -47,6 +55,7 @@ impl Agent {
     }
 }
 
+/// Enum for different condition types.
 #[derive(PartialEq, Eq)]
 pub enum ConditionType {
     Burning(),
