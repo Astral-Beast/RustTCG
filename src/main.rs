@@ -6,7 +6,8 @@ use agent::{Agent, Condition};
 use bevy::prelude::*;
 use bevy::render::*;
 use bevy::render::settings::*;
-use bevy::sprite::MaterialMesh2dBundle;
+use hex::build_hexes;
+
 
 pub use crate::deck::{Attribute, Card, Deck};
 
@@ -14,56 +15,12 @@ fn main() {
     
     App::new()
                 .add_plugins(MyRenderPlugin)
-                .add_systems(Startup, setup)
+                .add_systems(Startup, misc::setup)
+                .add_systems(Startup, build_hexes)
                 .run();
     
 }
 
-fn setup(
-    mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<ColorMaterial>>,
-    asset_server: Res<AssetServer>,
-) {
-    let font = asset_server.load("fonts\\F25_Bank_Printer.ttf");
-    let text_style = TextStyle {
-        font: font.clone(),
-        font_size: 10.0,
-        color: Color::WHITE,
-    };
-    let text_justification = JustifyText::Center;
-    commands.spawn(Camera2dBundle::default());
-    let hexes = hex::build_hexes();
-    for i in hexes{
-        //i.print_hex();
-        commands.spawn(MaterialMesh2dBundle {
-        mesh: meshes.add(RegularPolygon::new(1.0, 6)).into(),
-        transform: Transform::default().with_scale(Vec3::splat(hex::HEX_OUTER_RADIUS)).with_translation(i.position),
-        material: materials.add(Color::PURPLE),
-        ..default()
-    });
-    commands.spawn((
-        Text2dBundle {
-            text: Text {
-                sections: vec![
-                    TextSection::new(
-                    format!("{}\n{}\n({},{},{})", i.position.x, i.position.y, i.index.x,i.index.y, i.index.z),
-                    text_style.clone(),
-                    ),
-
-                ], 
-                justify:text_justification,
-                ..Default::default()
-            
-            },
-            
-            
-            transform: Transform::default().with_translation(Vec3::new(i.position.x,i.position.y,1.0)),
-            ..default()
-            },
-            ));
-}
-}
 
 //TODO Actual Test Cases
 fn test_func(){
