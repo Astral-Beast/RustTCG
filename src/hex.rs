@@ -1,14 +1,7 @@
-use std::{vec, f64};
-use bevy::prelude::*;
+use bevy::{ math::vec2, prelude::*};
 
-const HEX_OUTER_RADIUS: f64 = 50.0;
-const HEX_INNER_RADIUS: f64 = HEX_OUTER_RADIUS*0.866025404;
-
-struct HexPosition{
-    x:i16,
-    y: i16,
-    z:i16,
-}
+pub const HEX_OUTER_RADIUS: f32= 50.0;
+pub const HEX_INNER_RADIUS: f32 = HEX_OUTER_RADIUS*0.866025404;
 
 // fn inner_radius() ->f64{
 //     return HEX_OUTER_RADIUS*0.866025404
@@ -16,12 +9,16 @@ struct HexPosition{
 
 #[derive(Component)]
 pub struct Hex{
-    position : HexPosition,
+    pub position : Vec3,
+    pub index : Vec3,
 }
 impl Hex {
-    fn new( x:i16, z:i16) -> Hex{
-        Hex {position:HexPosition{x:x,y:0,z:z}}        
-    }
+    fn new( x:f32, y:f32, xi:f32, yi:f32) -> Hex{
+        Hex {
+            position:Vec3{x:x,y:y,z:0.0},
+            index:Vec3{x:xi, y:yi, z:-xi-yi},
+    }}
+
     pub fn print_hex(&self){
     println!(
         "Position: x: {} y: {}, z: {}", self.position.x, self.position.y, self.position.z
@@ -30,11 +27,15 @@ impl Hex {
 }
 
 pub fn build_hexes() -> Vec<Hex>{
-    let (width, height, scale) = (1024, 1024, 128.0);
     let mut hex_vec = Vec::with_capacity(100);
-    for x in 1..10 {
-        for z in 1..10 {
-            hex_vec.push(Hex::new(x,z))
+    for y in 0..11 {
+        for x in 0..11 {
+            println!("x {} z {}", x, y);
+            // hex_vec.push(Hex::new(  (x as f32 +  y as f32 * 0.5) - (y as f32 / 2.0 as f32) * (x as f32 * HEX_INNER_RADIUS * 2.0 ), 
+            //                          y as f32 *HEX_OUTER_RADIUS * 1.5 as f32))
+            print!("{} {}",y, y as f32* 0.5);
+            hex_vec.push(Hex::new((x as f32 -5.0  + (y as f32* 0.5) - ( y/2) as f32)  * (HEX_INNER_RADIUS * 2.0) ,
+                                    (y  as f32 -5.0)*HEX_OUTER_RADIUS*1.5, x as f32, y as f32))
         }
     }
 
