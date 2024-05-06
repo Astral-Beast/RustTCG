@@ -1,4 +1,4 @@
-use std::{collections::btree_map::Range, fmt};
+use std::fmt;
 use crate::misc;
 pub struct Deck {
     cards: Vec<Card>,
