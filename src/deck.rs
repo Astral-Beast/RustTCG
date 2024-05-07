@@ -1,5 +1,5 @@
-use std::fmt;
 use crate::misc;
+use std::fmt;
 pub struct Deck {
     cards: Vec<Card>,
 }
@@ -18,11 +18,9 @@ impl Deck {
         self
     }
     pub fn default_deck() -> Deck {
-        let mut deck = Deck {
-            cards: Vec::new(),
-        };
-        for _i in 1..4{
-            deck = deck.push_new_card(Card::stab_card());    
+        let mut deck = Deck { cards: Vec::new() };
+        for _i in 1..4 {
+            deck = deck.push_new_card(Card::stab_card());
         }
         deck = deck.push_new_card(Card::recite_litany_of_respite_card());
         deck = deck.push_new_card(Card::smoke_bomb_card());
@@ -36,7 +34,7 @@ pub struct Card {
     flavor_text: String,
     cost: Cost,
     attributes: Vec<Attribute>,
-    target: Target
+    target: Target,
 }
 impl Card {
     //misc card functions
@@ -65,17 +63,15 @@ pub enum Cost {
     ItemConsumed(u16, Item),
 }
 
-
 pub enum Attribute {
-    Damage(u16),        //X damagage inflicted
-    Poison(u16, u16),   //X Poison damage for Y Rounds
-    Armor(u16),         //protect from x damage
-    HealBody(u16),      //Increase Body by X
-    HealMind(u16),      //Increase mind by X
-    HealSpirit(u16),    //Increase Spirit by X
-    Blindness(u16) //Impart Blindness for x turns
+    Damage(u16),      //X damagage inflicted
+    Poison(u16, u16), //X Poison damage for Y Rounds
+    Armor(u16),       //protect from x damage
+    HealBody(u16),    //Increase Body by X
+    HealMind(u16),    //Increase mind by X
+    HealSpirit(u16),  //Increase Spirit by X
+    Blindness(u16),   //Impart Blindness for x turns
 }
-
 
 impl Card {
     // Standard Card factories
@@ -124,8 +120,6 @@ enum Target {
     MultiTarget(),
 }
 
-
-
 //Display functions:
 impl fmt::Display for Attribute {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -140,7 +134,7 @@ impl fmt::Display for Attribute {
             Attribute::HealBody(h) => write!(f, "Player's Body heals by {}", h),
             Attribute::HealMind(h) => write!(f, "Player's Mind heals by {}", h),
             Attribute::HealSpirit(h) => write!(f, "Player's Spirit heals by {}", h),
-            Attribute::Blindness(rounds) => write!(f, "Imparts Blindness for {} rounds", rounds)
+            Attribute::Blindness(rounds) => write!(f, "Imparts Blindness for {} rounds", rounds),
         }
     }
 }
@@ -150,7 +144,7 @@ impl fmt::Display for Cost {
             Cost::Body(amount) => write!(f, "{} Body", amount),
             Cost::Mind(amount) => write!(f, "{} Mind", amount),
             Cost::Spirit(amount) => write!(f, "{} Spirit", amount),
-            Cost::ItemConsumed(amount, item_type) => write!(f, "{} {}(s)", amount, item_type)
+            Cost::ItemConsumed(amount, item_type) => write!(f, "{} {}(s)", amount, item_type),
         }
     }
 }
@@ -159,7 +153,7 @@ impl fmt::Display for Target {
         match &self {
             Target::SelfTarget() => write!(f, "Targets self."),
             Target::SingleTarget() => write!(f, "Targets a single enemy."),
-            Target::MultiTarget() => write!(f,"Targets multiple enemies.")
+            Target::MultiTarget() => write!(f, "Targets multiple enemies."),
         }
     }
 }
@@ -167,8 +161,7 @@ impl fmt::Display for Target {
 impl fmt::Display for Item {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self {
-            Item::SmokeBomb() => write!(f, "Smoke Bomb")
+            Item::SmokeBomb() => write!(f, "Smoke Bomb"),
         }
     }
 }
-
